@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 type Language = {
   code: string
@@ -7,13 +8,17 @@ type Language = {
   flag: string
 }
 
+const { locale } = useI18n()
+
 const dropdownOpen = ref(false)
 const languages: Language[] = [
-    { code: 'fr', label: 'Français', flag: '/images/fr.avif' },
-    { code: 'en', label: 'English', flag: '/images/en.png' },
+  { code: 'fr', label: 'Français', flag: `${import.meta.env.BASE_URL}images/fr.png` },
+  { code: 'en', label: 'English', flag: `${import.meta.env.BASE_URL}images/en.png` },
 ]
 
-const selectedLanguage = ref<Language>(languages[0])
+const selectedLanguage = ref<Language>(
+  languages.find(l => l.code === locale.value) || languages[0]
+)
 const selectorRef = ref<HTMLElement | null>(null)
 
 const toggleDropdown = () => {
@@ -23,7 +28,7 @@ const toggleDropdown = () => {
 const selectLanguage = (lang: Language) => {
   selectedLanguage.value = lang
   dropdownOpen.value = false
-  // i18n.global.locale = lang.code // à décommenter si tu utilises vue-i18n
+  locale.value = lang.code
 }
 
 const handleClickOutside = (event: MouseEvent) => {
@@ -44,16 +49,15 @@ onUnmounted(() => {
 })
 </script>
 
-
 <template>
-  <nav class="navbar">
+  <nav class="navbar glass">
     <a href="#" class="logo">HM</a>
 
     <div class="language-selector" ref="selectorRef">
       <button @click="toggleDropdown" class="lang-button">
         <img :src="selectedLanguage.flag" alt="flag" />
         {{ selectedLanguage.code }}
-        <span>▼</span>
+        <span class="arrow" :class="{ open: dropdownOpen }">▼</span>
       </button>
 
       <div v-if="dropdownOpen" class="dropdown">
@@ -63,7 +67,10 @@ onUnmounted(() => {
             :key="lang.code"
             @click="selectLanguage(lang)"
           >
-            {{ lang.label }}
+            <div class="lang-item">
+              <img :src="lang.flag" alt="flag" class="mini-flag" />
+              {{ lang.label }}
+            </div>
           </li>
         </ul>
       </div>
@@ -76,83 +83,122 @@ onUnmounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1.5rem;
-  background-color: #1F1F1F;
+  padding: 0.8rem 2rem;
   width: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  box-shadow: 0 5px 10px #5263FF;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .logo {
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #5263FF;
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 1.5rem;
   text-decoration: none;
-  background: none;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+  transition: var(--transition-fast);
+}
+
+.logo:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
 }
 
 .language-selector {
   position: relative;
 }
+
 .lang-button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.4rem 0.75rem;
-  background: #1F1F1F;
-  border: 1px solid #5263FF;
-  color: #5263FF;
-  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 20px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: var(--transition-fast);
+}
+
+.lang-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--primary);
 }
 
 .lang-button img {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
+  object-fit: cover;
+}
+
+.arrow {
+  font-size: 0.7rem;
+  transition: transform 0.3s ease;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
 }
 
 .dropdown {
   position: absolute;
   right: 0;
   margin-top: 0.5rem;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 10%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1100;
+  overflow: hidden;
+  min-width: 130px;
+  animation: fadeInDropdown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeInDropdown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .dropdown ul {
   list-style: none;
   margin: 0;
-  padding: 0;
-  background-color: #1F1F1F;
-  border-radius: 10%;
+  padding: 0.3rem 0;
 }
 
 .dropdown li {
   padding: 0.5rem 1rem;
   cursor: pointer;
-  color: white;
-}
-
-.dropdown li:first-of-type{
-  border-radius: 15% 15% 0 0;
-}
-
-.dropdown li:last-of-type{
-  border-radius:0 0 15% 15%;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  transition: var(--transition-fast);
 }
 
 .dropdown li:hover {
-  background-color: #3f3f3f;
+  background-color: var(--bg-tertiary);
+  color: var(--primary);
 }
 
-div:first-of-type{
-    top: 0;
+.lang-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.mini-flag {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 </style>

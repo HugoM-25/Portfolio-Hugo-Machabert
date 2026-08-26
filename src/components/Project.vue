@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onUnmounted } from 'vue'
-import type { ProjectModel } from '../../models/ProjectModel'
+import type { ProjectModel } from '@/models/ProjectModel'
 
 interface Props {
   project: ProjectModel
@@ -33,9 +33,11 @@ const prevSlide = () => {
 
 const startAutoSlide = () => {
   stopAutoSlide()
-  intervalId = window.setInterval(() => {
-    nextSlide()
-  }, 3000)
+  if (project.imagesPaths.length > 1) {
+    intervalId = window.setInterval(() => {
+      nextSlide()
+    }, 4000)
+  }
 }
 
 const stopAutoSlide = () => {
@@ -51,11 +53,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="card" @click="openModal" tabindex="0" role="button" aria-label="Open project details">
+  <div class="card" @click="openModal" tabindex="0" role="button" aria-label="Open project details" @keydown.enter="openModal">
     <img :src="project.image" :alt="project.nom" class="card-image" />
     <div class="overlay">
       <h3>{{ project.nom }}</h3>
       <p>{{ project.description }}</p>
+      <div class="btn-more">{{ $t('projects.viewProject') }} →</div>
     </div>
   </div>
 
@@ -63,8 +66,10 @@ onUnmounted(() => {
     <div class="modal-content">
       <button class="close-btn" @click="closeModal" aria-label="Close popup">&times;</button>
       
+      <h2 class="project-title">{{ project.nom }}</h2>
+      
       <div class="carousel-wrapper">
-        <button class="nav-btn prev" @click.stop="prevSlide" aria-label="Previous image">&#10094;</button>
+        <button v-if="project.imagesPaths.length > 1" class="nav-btn prev" @click.stop="prevSlide" aria-label="Previous image">&#10094;</button>
         
         <div class="carousel-image-container">
           <img
@@ -75,7 +80,7 @@ onUnmounted(() => {
           />
         </div>
         
-        <button class="nav-btn next" @click.stop="nextSlide" aria-label="Next image">&#10095;</button>
+        <button v-if="project.imagesPaths.length > 1" class="nav-btn next" @click.stop="nextSlide" aria-label="Next image">&#10095;</button>
       </div>
       
       <div class="long-description">
@@ -86,175 +91,216 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-/* Carte adaptative */
+/* Card component styling */
 .card {
   position: relative;
   cursor: pointer;
   overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  transition: background-color 0.3s ease;
-  display: inline-block; /* taille selon contenu */
-  max-width: 300px; /* taille max raisonnable */
-  max-height: 200px; /* max hauteur */
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-normal);
+  width: 100%;
+  height: 250px;
+  display: block;
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translateY(-6px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 30px rgba(82, 99, 255, 0.15);
 }
 
 .card-image {
   display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 200px;
-  object-fit: contain; /* conserve ratio, pas de rognage */
-  transition: transform 0.3s ease;
-}
-
-.card:hover,
-.card:focus {
-  background-color: #ccc;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-normal);
 }
 
 .card:hover .card-image,
-.card:focus .card-image {
-  transform: scale(1.05);
-  filter: brightness(0.7);
+.card:focus-within .card-image {
+  transform: scale(1.06);
+  filter: blur(2px) brightness(0.4);
 }
 
 .overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: linear-gradient(to top, rgba(11, 15, 25, 0.9) 20%, rgba(11, 15, 25, 0.4) 100%);
   color: white;
   opacity: 0;
-  transition: opacity 0.3s ease;
-  padding: 10px;
+  transition: var(--transition-normal);
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .card:hover .overlay,
-.card:focus .overlay {
+.card:focus-within .overlay {
   opacity: 1;
 }
 
 .overlay h3 {
   margin: 0 0 5px 0;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  font-family: var(--font-title);
 }
 
 .overlay p {
-  margin: 0;
-  font-size: 0.9rem;
+  margin: 0 0 15px 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
 }
 
-/* Modal */
+.btn-more {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--secondary);
+}
+
+/* Modal Styling */
 .modal {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(11, 15, 25, 0.85);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 2000;
   padding: 20px;
+  animation: fadeInModal 0.3s ease;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .modal-content {
-  background: white;
-  border-radius: 10px;
-  max-width: 700px;
-  width: 90%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  max-width: 750px;
+  width: 100%;
   max-height: 90vh;
-  overflow: hidden; /* on cache scroll ici, scroll sur long-description */
+  overflow-y: auto;
   position: relative;
-  padding: 20px;
+  padding: 2.5rem 2rem 2rem 2rem;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  animation: slideInModal 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Close button fixe en haut à droite */
+@keyframes slideInModal {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Close button */
 .close-btn {
   position: absolute;
-  top: 10px; right: 15px;
+  top: 1rem; right: 1.2rem;
   font-size: 2rem;
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #333;
+  color: var(--text-secondary);
+  transition: var(--transition-fast);
   line-height: 1;
-  padding: 0;
-  z-index: 10;
 }
 
-/* Carousel container fixe en hauteur */
+.close-btn:hover {
+  color: var(--text-primary);
+  transform: scale(1.1);
+}
+
+.project-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Carousel wrapper */
 .carousel-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  height: 350px; /* taille fixe pour éviter saut */
-  margin-bottom: 20px;
+  height: 380px;
+  margin-bottom: 1.5rem;
+  background: var(--bg-primary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
 }
 
-/* Container image fixe */
 .carousel-image-container {
   width: 100%;
-  max-width: 600px;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  background: #f5f5f5;
-  border-radius: 6px;
-  box-sizing: border-box;
 }
 
-/* Image centrée et contenue */
 .carousel-image {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
   user-select: none;
   pointer-events: none;
-  display: block;
 }
 
-/* Flèches navigation fixes */
 .nav-btn {
-  background: rgba(0,0,0,0.5);
-  border: none;
+  position: absolute;
+  background: rgba(11, 15, 25, 0.6);
+  border: 1px solid var(--border-color);
   color: white;
-  font-size: 2.5rem;
+  font-size: 1.3rem;
   cursor: pointer;
-  padding: 8px 14px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  user-select: none;
-  transition: background-color 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition-fast);
   z-index: 10;
 }
 
 .nav-btn:hover {
-  background: rgba(0,0,0,0.8);
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 15px var(--primary-glow);
 }
 
-.nav-btn.prev {
-  margin-right: 10px;
-}
+.nav-btn.prev { left: 1rem; }
+.nav-btn.next { right: 1rem; }
 
-.nav-btn.next {
-  margin-left: 10px;
-}
-
-/* Description avec scroll si trop longue */
+/* Long description content */
 .long-description {
-  font-size: 1rem;
-  color: #333;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
   white-space: pre-line;
-  overflow-y: auto;
-  max-height: 150px;
-  padding-right: 8px; /* pour scrollbar */
+}
+
+@media (max-width: 768px) {
+  .carousel-wrapper {
+    height: 250px;
+  }
+  .modal-content {
+    padding: 2rem 1.2rem 1.5rem 1.2rem;
+  }
+  .project-title {
+    font-size: 1.5rem;
+  }
 }
 </style>
