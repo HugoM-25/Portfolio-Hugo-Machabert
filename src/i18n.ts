@@ -11,27 +11,29 @@ const messages = {
     },
     hero: {
       greeting: "Bonjour, je suis",
-      title: "Développeur Full-Stack",
-      subtitle: "Étudiant en Informatique à l'Université Lyon 1",
+      title: "Étudiant en BUT Informatique",
+      subtitle: "Parcours Réalisation d'Applications — IUT Lyon 1",
       description: "Passionné par le développement d'applications web modernes et performantes. J'adore concevoir des solutions élégantes à des problèmes complexes.",
       cvButton: "Mon CV",
       projectsButton: "Mes projets"
     },
     about: {
       title: "À Propos de Moi",
-      p1: "Actuellement étudiant en Licence d'Informatique à l'Université Claude Bernard Lyon 1, je me spécialise dans la conception et le développement d'applications.",
-      p2: "Je m'intéresse aussi bien à la solidité des architectures backend qu'au design d'interfaces fluides et soignées. Mon objectif est d'approfondir mes compétences à travers des projets ambitieux.",
+      p1: "Actuellement en 3ᵉ année de BUT Informatique (parcours Réalisation d’Applications) à l'IUT Lyon 1, j'effectue ma formation en alternance chez EDF.",
+      p2: "Je m'intéresse aussi bien à la solidité des architectures logicielles backend qu'à la qualité et la fluidité des interfaces utilisateurs. Mon objectif est de consolider mes acquis techniques et méthodologiques à travers des projets concrets, du recueil des besoins jusqu'au déploiement.",
       details: {
         location: "Lyon, France",
-        status: "Recherche d'Alternance / Stage",
-        interests: "Jeu d'échecs, Programmation, Veille Technologique"
+        status: "Futur étudiant en Master MIAGE",
+        interests: "Volley-ball, Photographie, Jeux de société"
       }
     },
     skills: {
       title: "Mes Compétences",
-      frontend: "Développement Frontend",
-      backend: "Développement Backend",
-      tools: "Outils & DevOps"
+      languages: "Langages",
+      frameworks: "Frameworks & Runtimes",
+      databases: "Bases de données",
+      devops: "DevOps & Outils",
+      methodologies: "Conception & Méthodes"
     },
     projects: {
       title: "Mes Projets",
@@ -63,27 +65,29 @@ const messages = {
     },
     hero: {
       greeting: "Hello, I am",
-      title: "Full-Stack Developer",
-      subtitle: "Computer Science Student at Lyon 1 University",
+      title: "BUT Computer Science Student",
+      subtitle: "Application Development Track — IUT Lyon 1",
       description: "Passionate about building modern and performant web applications. I love crafting elegant solutions to complex problems.",
       cvButton: "My CV",
       projectsButton: "My Projects"
     },
     about: {
       title: "About Me",
-      p1: "Currently a Computer Science Bachelor student at Claude Bernard Lyon 1 University, focusing on software engineering and application development.",
-      p2: "I design robust backends and clean user interfaces. My goal is to continuously tackle new technical challenges and refine my skills through ambitious projects.",
+      p1: "Currently in my 3rd year of a Bachelor of Technology in Computer Science (Application Development track) at IUT Lyon 1, doing my work-study program at EDF.",
+      p2: "I am interested in the robustness of backend software architectures as well as the quality and fluidity of user interfaces. My goal is to consolidate my technical and methodological skills through hands-on projects, from requirements gathering to deployment.",
       details: {
         location: "Lyon, France",
-        status: "Open for Apprenticeship / Internship",
-        interests: "Chess, Software development, Tech news"
+        status: "Future Master MIAGE Student",
+        interests: "Volleyball, Photography, Tabletop Games"
       }
     },
     skills: {
       title: "My Skills",
-      frontend: "Frontend Development",
-      backend: "Backend Development",
-      tools: "Tools & DevOps"
+      languages: "Languages",
+      frameworks: "Frameworks & Runtimes",
+      databases: "Databases",
+      devops: "DevOps & Tools",
+      methodologies: "Design & Methodologies"
     },
     projects: {
       title: "My Projects",

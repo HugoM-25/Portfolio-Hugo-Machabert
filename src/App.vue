@@ -88,7 +88,7 @@ onUnmounted(() => {
             
             <div class="cta-buttons">
               <a href="#projet" class="btn btn-primary">{{ $t('hero.projectsButton') }}</a>
-              <a href="#contact" class="btn btn-secondary">{{ $t('hero.cvButton') }}</a>
+              <!-- <a href="#contact" class="btn btn-secondary">{{ $t('hero.cvButton') }}</a> -->
             </div>
           </div>
           <div class="hero-image-container">
@@ -140,45 +140,77 @@ onUnmounted(() => {
       <section id="competence" class="section">
         <h2 class="section-title">{{ $t('skills.title') }}</h2>
         <div class="skills-grid">
+          <!-- Langages -->
           <div class="skills-category-card">
             <div class="card-header">
               <font-awesome-icon :icon="['fas', 'code']" class="category-icon" />
-              <h3>{{ $t('skills.frontend') }}</h3>
+              <h3>{{ $t('skills.languages') }}</h3>
             </div>
             <div class="skills-list">
-              <span class="skill-tag">Vue 3</span>
-              <span class="skill-tag">TypeScript</span>
-              <span class="skill-tag">HTML5 / CSS3</span>
-              <span class="skill-tag">Responsive Design</span>
-              <span class="skill-tag">JavaScript ES6+</span>
+              <span class="skill-tag">Java</span>
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">Kotlin</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">PHP</span>
+              <span class="skill-tag">C</span>
+              <span class="skill-tag">XML</span>
+              <span class="skill-tag">HTML / CSS</span>
             </div>
           </div>
           
+          <!-- Frameworks & Runtimes -->
           <div class="skills-category-card">
             <div class="card-header">
               <font-awesome-icon :icon="['fas', 'code']" class="category-icon" />
-              <h3>{{ $t('skills.backend') }}</h3>
+              <h3>{{ $t('skills.frameworks') }}</h3>
             </div>
             <div class="skills-list">
+              <span class="skill-tag">Spring Boot</span>
+              <span class="skill-tag">Symfony</span>
+              <span class="skill-tag">Angular</span>
+              <span class="skill-tag">Vue.js</span>
               <span class="skill-tag">Node.js</span>
-              <span class="skill-tag">Express.js</span>
-              <span class="skill-tag">RESTful APIs</span>
-              <span class="skill-tag">SQL & NoSQL</span>
-              <span class="skill-tag">JSON / Web Services</span>
             </div>
           </div>
 
+          <!-- Bases de données -->
+          <div class="skills-category-card">
+            <div class="card-header">
+              <font-awesome-icon :icon="['fas', 'globe']" class="category-icon" />
+              <h3>{{ $t('skills.databases') }}</h3>
+            </div>
+            <div class="skills-list">
+              <span class="skill-tag">SQL</span>
+              <span class="skill-tag">PL/SQL</span>
+              <span class="skill-tag">MongoDB</span>
+              <span class="skill-tag">Neo4j</span>
+            </div>
+          </div>
+
+          <!-- DevOps & Outils -->
           <div class="skills-category-card">
             <div class="card-header">
               <font-awesome-icon :icon="['fas', 'briefcase']" class="category-icon" />
-              <h3>{{ $t('skills.tools') }}</h3>
+              <h3>{{ $t('skills.devops') }}</h3>
             </div>
             <div class="skills-list">
-              <span class="skill-tag">Git & GitHub</span>
-              <span class="skill-tag">Vite.js</span>
-              <span class="skill-tag">npm / PNPM</span>
-              <span class="skill-tag">CI/CD Workflows</span>
-              <span class="skill-tag">Linux / Unix</span>
+              <span class="skill-tag">Docker</span>
+              <span class="skill-tag">Ansible</span>
+              <span class="skill-tag">Git</span>
+              <span class="skill-tag">CI/CD</span>
+            </div>
+          </div>
+
+          <!-- Conception & Méthodes -->
+          <div class="skills-category-card">
+            <div class="card-header">
+              <font-awesome-icon :icon="['fas', 'book']" class="category-icon" />
+              <h3>{{ $t('skills.methodologies') }}</h3>
+            </div>
+            <div class="skills-list">
+              <span class="skill-tag">UML</span>
+              <span class="skill-tag">Design Patterns</span>
+              <span class="skill-tag">Méthodes Agiles</span>
             </div>
           </div>
         </div>
@@ -208,7 +240,7 @@ onUnmounted(() => {
                 <font-awesome-icon :icon="['fas', 'envelope']" class="info-icon" />
                 <div>
                   <h4>{{ $t('contact.email') }}</h4>
-                  <a href="mailto:hugo.machabert@etu.univ-lyon1.fr">hugo.machabert@etu.univ-lyon1.fr</a>
+                  <a href="mailto:h.machabert@gmail.com">h.machabert@gmail.com</a>
                 </div>
               </div>
               
@@ -431,7 +463,7 @@ onUnmounted(() => {
 /* Skills Grid */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
 }
 
