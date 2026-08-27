@@ -28,7 +28,7 @@ const messages = {
       }
     },
     skills: {
-      title: "Mes Compétences",
+      title: "Stack technique",
       languages: "Langages",
       frameworks: "Frameworks & Runtimes",
       databases: "Bases de données",
@@ -82,7 +82,7 @@ const messages = {
       }
     },
     skills: {
-      title: "My Skills",
+      title: "Tech Stack",
       languages: "Languages",
       frameworks: "Frameworks & Runtimes",
       databases: "Databases",
