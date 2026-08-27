@@ -575,7 +575,7 @@ onUnmounted(() => {
         </div>
 
         <!-- Missions Alternance -->
-        <div class="projects-subsection" style="margin-top: 4rem;">
+        <div class="projects-subsection" style="margin-top: 1.5rem;">
           <h2 class="section-title">{{ $t('missions.title') }}</h2>
           <div v-if="filteredMissions.length > 0" class="projects-grid">
             <div v-for="mission in filteredMissions" :key="mission.nom" class="project-card-wrapper">
@@ -660,6 +660,10 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+#home {
+  padding-top: 150px;
+}
+
 .hero-wrapper {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
@@ -949,7 +953,7 @@ onUnmounted(() => {
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 1.4rem 1.6rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   box-shadow: var(--shadow-md);
   position: sticky;
   top: 70px;
@@ -1374,6 +1378,9 @@ textarea.form-input {
   }
   .contact-form-container {
     padding: 1.8rem;
+  }
+  #home {
+    padding-top: 110px;
   }
 }
 </style>
