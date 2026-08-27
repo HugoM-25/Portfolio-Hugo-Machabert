@@ -15,7 +15,7 @@ const messages = {
       subtitle: "Parcours Réalisation d'Applications — IUT Lyon 1",
       description: "Passionné par le développement d'applications web modernes et performantes. J'adore concevoir des solutions élégantes à des problèmes complexes.",
       cvButton: "Mon CV",
-      projectsButton: "Mes projets"
+      projectsButton: "Mes projets et missions"
     },
     about: {
       title: "À Propos de Moi",
@@ -147,7 +147,9 @@ const messages = {
       emailLabel: "Adresse e-mail",
       messageLabel: "Votre message",
       sendButton: "Envoyer le message",
+      sendingButton: "Envoi en cours...",
       successMessage: "Message envoyé avec succès !",
+      errorMessage: "Une erreur est survenue. Veuillez réessayer ou m’écrire directement par e-mail.",
       infoTitle: "Mes Coordonnées",
       email: "Adresse e-mail",
       github: "Mon GitHub",
@@ -175,7 +177,7 @@ const messages = {
       subtitle: "Application Development Track — IUT Lyon 1",
       description: "Passionate about building modern and performant web applications. I love crafting elegant solutions to complex problems.",
       cvButton: "My CV",
-      projectsButton: "My Projects"
+      projectsButton: "My Projects & Missions"
     },
     about: {
       title: "About Me",
@@ -307,7 +309,9 @@ const messages = {
       emailLabel: "Email Address",
       messageLabel: "Your Message",
       sendButton: "Send Message",
+      sendingButton: "Sending...",
       successMessage: "Message sent successfully!",
+      errorMessage: "An error occurred. Please try again or email me directly.",
       infoTitle: "My Info",
       email: "Email address",
       github: "My GitHub",

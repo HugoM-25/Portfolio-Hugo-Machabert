@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import emailjs from '@emailjs/browser'
 import TopBar from './components/TopBar.vue'
 import BottomBar from './components/BottomBar.vue'
 import type { ProjectModel } from '@/models/ProjectModel'
 import Project from './components/Project.vue'
 
 const { t } = useI18n()
+
+// Init EmailJS once
+emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
 
 // Reactive list of projects driven by i18n translations
 const listeProjects = computed<ProjectModel[]>(() => [
@@ -277,14 +281,37 @@ const formData = ref({
   message: ''
 })
 const formSubmitted = ref(false)
+const formLoading  = ref(false)
+const formError    = ref('')
 
-const submitForm = () => {
-  formSubmitted.value = true
+const submitForm = async () => {
+  formLoading.value = true
+  formError.value   = ''
+  try {
+    await emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      {
+        from_name:    formData.value.name,
+        from_email:   formData.value.email,
+        message:      formData.value.message,
+        subject:      `[PORTFOLIO] Message de ${formData.value.name}`,
+        to_email:     'h.machabert@gmail.com',
+      }
+    )
+    formSubmitted.value = true
+  } catch (err) {
+    console.error('EmailJS error:', err)
+    formError.value = t('contact.errorMessage')
+  } finally {
+    formLoading.value = false
+  }
 }
 
 const resetForm = () => {
-  formData.value = { name: '', email: '', message: '' }
+  formData.value  = { name: '', email: '', message: '' }
   formSubmitted.value = false
+  formError.value     = ''
 }
 
 onMounted(() => {
@@ -599,17 +626,23 @@ onUnmounted(() => {
             <form v-if="!formSubmitted" @submit.prevent="submitForm" class="contact-form">
               <div class="form-group">
                 <label for="name">{{ $t('contact.nameLabel') }}</label>
-                <input type="text" id="name" v-model="formData.name" required class="form-input" />
+                <input type="text" id="name" v-model="formData.name" required class="form-input" :disabled="formLoading" />
               </div>
               <div class="form-group">
                 <label for="email">{{ $t('contact.emailLabel') }}</label>
-                <input type="email" id="email" v-model="formData.email" required class="form-input" />
+                <input type="email" id="email" v-model="formData.email" required class="form-input" :disabled="formLoading" />
               </div>
               <div class="form-group">
                 <label for="message">{{ $t('contact.messageLabel') }}</label>
-                <textarea id="message" v-model="formData.message" rows="5" required class="form-input"></textarea>
+                <textarea id="message" v-model="formData.message" rows="5" required class="form-input" :disabled="formLoading"></textarea>
               </div>
-              <button type="submit" class="btn btn-primary form-submit-btn">{{ $t('contact.sendButton') }}</button>
+
+              <p v-if="formError" class="form-error">{{ formError }}</p>
+
+              <button type="submit" class="btn btn-primary form-submit-btn" :disabled="formLoading">
+                <span v-if="formLoading" class="btn-spinner"></span>
+                <span>{{ formLoading ? $t('contact.sendingButton') : $t('contact.sendButton') }}</span>
+              </button>
             </form>
             <div v-else class="form-success animate-fade-in">
               <div class="success-icon">✓</div>
@@ -1185,6 +1218,42 @@ textarea.form-input {
   color: var(--text-secondary);
   font-size: 0.95rem;
   margin-bottom: 1rem;
+}
+
+.form-error {
+  color: #f87171;
+  font-size: 0.9rem;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.form-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.form-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* BUT Competencies Card styles */
