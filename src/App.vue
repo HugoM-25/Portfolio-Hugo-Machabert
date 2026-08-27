@@ -38,6 +38,11 @@ const handleScroll = () => {
     }
   }
 
+  // Treat BUT competencies as part of competence category for navigation active highlight
+  if (current === 'but-competence') {
+    current = 'competence'
+  }
+
   if (current !== activeDiv.value) {
     activeDiv.value = current
   }
@@ -211,6 +216,23 @@ onUnmounted(() => {
               <span class="skill-tag">UML</span>
               <span class="skill-tag">Design Patterns</span>
               <span class="skill-tag">Méthodes Agiles</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Compétences BUT Informatique -->
+      <section id="but-competence" class="section">
+        <h2 class="section-title">{{ $t('butSkills.title') }}</h2>
+        <div class="skills-grid">
+          <div v-for="i in 6" :key="i" class="skills-category-card but-skill-card">
+            <div class="card-header-but">
+              <font-awesome-icon :icon="['fas', 'graduation-cap']" class="category-icon-but" />
+              <h3>{{ $t(`butSkills.c${i}.title`) }}</h3>
+            </div>
+            <p class="but-skill-desc">{{ $t(`butSkills.c${i}.desc`) }}</p>
+            <div class="but-skill-level">
+              <span class="level-badge">{{ $t(`butSkills.c${i}.level`) }}</span>
             </div>
           </div>
         </div>
@@ -680,6 +702,61 @@ textarea.form-input {
   color: var(--text-secondary);
   font-size: 0.95rem;
   margin-bottom: 1rem;
+}
+
+/* BUT Competencies Card styles */
+.but-skill-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-header-but {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.8rem;
+}
+
+.category-icon-but {
+  font-size: 1.5rem;
+  color: var(--secondary);
+  margin-top: 0.2rem;
+}
+
+.card-header-but h3 {
+  font-size: 1.15rem;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.but-skill-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  flex-grow: 1;
+}
+
+.but-skill-level {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: auto;
+}
+
+.level-badge {
+  background: rgba(82, 99, 255, 0.15);
+  border: 1px solid var(--primary-glow);
+  color: var(--secondary);
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* Responsive Styles */

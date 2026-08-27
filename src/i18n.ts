@@ -35,6 +35,39 @@ const messages = {
       devops: "DevOps & Outils",
       methodologies: "Conception & Méthodes"
     },
+    butSkills: {
+      title: "Compétences BUT Informatique",
+      c1: {
+        title: "Réaliser un développement d'application",
+        desc: "Adapter des applications sur un ensemble de supports (embarqué, web, mobile, IoT...)",
+        level: "Niveau 3"
+      },
+      c2: {
+        title: "Optimiser des applications",
+        desc: "Analyser et optimiser des applications",
+        level: "Niveau 3"
+      },
+      c3: {
+        title: "Administrer des systèmes informatiques communicants complexes",
+        desc: "Déployer des services dans une architecture réseau",
+        level: "Niveau 2"
+      },
+      c4: {
+        title: "Gérer des données de l'information",
+        desc: "Optimiser une base de données, interagir avec une application et mettre en œuvre la sécurité",
+        level: "Niveau 2"
+      },
+      c5: {
+        title: "Conduire un projet",
+        desc: "Appliquer une démarche de suivi de projet en fonction des besoins métiers des clients et des utilisateurs",
+        level: "Niveau 2"
+      },
+      c6: {
+        title: "Collaborer au sein d'une équipe informatique",
+        desc: "Manager une équipe informatique",
+        level: "Niveau 3"
+      }
+    },
     projects: {
       title: "Mes Projets",
       viewProject: "Voir le projet",
@@ -88,6 +121,39 @@ const messages = {
       databases: "Databases",
       devops: "DevOps & Tools",
       methodologies: "Design & Methodologies"
+    },
+    butSkills: {
+      title: "BUT Computer Science Skills",
+      c1: {
+        title: "Software Development",
+        desc: "Adapt applications across a range of platforms (embedded, web, mobile, IoT...)",
+        level: "Level 3"
+      },
+      c2: {
+        title: "Optimize Applications",
+        desc: "Analyze and optimize software applications",
+        level: "Level 3"
+      },
+      c3: {
+        title: "Administer Complex Network Systems",
+        desc: "Deploy services within network architectures",
+        level: "Level 2"
+      },
+      c4: {
+        title: "Manage Data and Information",
+        desc: "Optimize databases, interface with applications, and implement security measures",
+        level: "Level 2"
+      },
+      c5: {
+        title: "Project Management",
+        desc: "Apply project tracking methodologies based on business, client, and user needs",
+        level: "Level 2"
+      },
+      c6: {
+        title: "Team Collaboration",
+        desc: "Manage and collaborate within an IT team",
+        level: "Level 3"
+      }
     },
     projects: {
       title: "My Projects",
