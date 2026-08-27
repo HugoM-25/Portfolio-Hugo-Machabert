@@ -4,6 +4,7 @@ export interface ProjectModel {
   nom : string;
   description: string;
   image: string;
+  logo: string;
   longDescription : string;
   imagesPaths: string[];
   contexte: string;

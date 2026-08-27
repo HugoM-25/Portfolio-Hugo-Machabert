@@ -82,9 +82,14 @@ onUnmounted(() => {
 
 <template>
   <div class="card" @click="openModal" tabindex="0" role="button" aria-label="Open project details" @keydown.enter="openModal">
-    <img :src="project.image" :alt="project.nom" class="card-image" />
-    <div class="overlay">
+    <div class="card-logo-container">
+      <img :src="project.logo" :alt="project.nom" class="card-large-logo" />
+    </div>
+    <div class="card-title-bar">
       <h3>{{ project.nom }}</h3>
+    </div>
+    <div class="overlay">
+      <h3 class="overlay-title">{{ project.nom }}</h3>
       <p>{{ project.description }}</p>
       <div class="btn-more">{{ $t('projects.viewProject') }} →</div>
     </div>
@@ -171,18 +176,35 @@ onUnmounted(() => {
   box-shadow: 0 12px 30px rgba(82, 99, 255, 0.15);
 }
 
-.card-image {
-  display: block;
+.card-logo-container {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.9) 100%);
+  padding: 2.2rem;
+  box-sizing: border-box;
   transition: var(--transition-normal);
 }
 
-.card:hover .card-image,
-.card:focus-within .card-image {
-  transform: scale(1.06);
-  filter: blur(2px) brightness(0.4);
+.card-large-logo {
+  max-width: 70%;
+  max-height: 60%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+  transition: var(--transition-normal);
+}
+
+.card:hover .card-large-logo,
+.card:focus-within .card-large-logo {
+  transform: scale(1.08);
+  filter: drop-shadow(0 12px 24px rgba(82, 99, 255, 0.3)) blur(3px) brightness(0.3);
+}
+
+.card:hover .card-logo-container,
+.card:focus-within .card-logo-container {
+  background: radial-gradient(circle at center, rgba(30, 41, 59, 0.2) 0%, rgba(15, 23, 42, 0.95) 100%);
 }
 
 .overlay {
@@ -203,16 +225,52 @@ onUnmounted(() => {
   opacity: 1;
 }
 
-.overlay h3 {
-  margin: 0 0 5px 0;
-  font-size: 1.4rem;
+/* Card logo badge removed */
+
+/* Card title bar (shown by default) */
+.card-title-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(11, 15, 25, 0.95) 40%, rgba(11, 15, 25, 0) 100%);
+  padding: 1.5rem 1.2rem 1rem 1.2rem;
+  transition: var(--transition-fast);
+  text-align: left;
+  z-index: 5;
+}
+
+.card-title-bar h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
   font-family: var(--font-title);
+  letter-spacing: -0.01em;
+}
+
+.card:hover .card-title-bar {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.overlay-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.8rem 0;
+  text-align: left;
+  font-family: var(--font-title);
+  background: linear-gradient(135deg, #ffffff 40%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .overlay p {
   margin: 0 0 15px 0;
   font-size: 0.95rem;
   color: var(--text-secondary);
+  text-align: left;
 }
 
 .btn-more {
