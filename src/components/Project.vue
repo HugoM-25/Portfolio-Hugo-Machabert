@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { ProjectModel } from '@/models/ProjectModel'
+
+const { locale } = useI18n()
 
 interface Props {
   project: ProjectModel
@@ -47,6 +50,31 @@ const stopAutoSlide = () => {
   }
 }
 
+const formatCompCode = (code: string, projectNom: string) => {
+  const labels: Record<string, { fr: string, en: string }> = {
+    C1: { fr: "Réaliser", en: "Software Development" },
+    C2: { fr: "Optimiser", en: "Optimize" },
+    C3: { fr: "Administrer", en: "Administer" },
+    C4: { fr: "Gérer les données", en: "Data Management" },
+    C5: { fr: "Conduire un projet", en: "Project Management" },
+    C6: { fr: "Collaborer", en: "Collaborate" }
+  }
+  
+  // Determine level
+  let levelNum = 3
+  if (projectNom === 'AichiKier') {
+    levelNum = 2
+  } else if (code === 'C3') {
+    levelNum = 2
+  }
+  
+  const label = labels[code] || { fr: "", en: "" }
+  const nameStr = locale.value === 'fr' ? label.fr : label.en
+  const levelStr = locale.value === 'fr' ? `Niv. ${levelNum}` : `Lvl. ${levelNum}`
+  
+  return `${code} — ${nameStr} (${levelStr})`
+}
+
 onUnmounted(() => {
   stopAutoSlide()
 })
@@ -68,33 +96,52 @@ onUnmounted(() => {
       
       <h2 class="project-title">{{ project.nom }}</h2>
       
-      <div class="carousel-wrapper">
-        <button v-if="project.imagesPaths.length > 1" class="nav-btn prev" @click.stop="prevSlide" aria-label="Previous image">&#10094;</button>
-        
-        <div class="carousel-image-container">
-          <img
-            :src="project.imagesPaths[currentIndex]"
-            :alt="`Image ${currentIndex + 1} of ${project.imagesPaths.length}`"
-            class="carousel-image"
-            draggable="false"
-          />
-        </div>
-        
-        <button v-if="project.imagesPaths.length > 1" class="nav-btn next" @click.stop="nextSlide" aria-label="Next image">&#10095;</button>
-      </div>
-      
       <div class="project-info-details">
-        <div class="info-section">
-          <h4>{{ $t('projects.contextTitle') }}</h4>
-          <p>{{ project.contexte }}</p>
+        <!-- Colonne Gauche : Images & Détails du projet -->
+        <div class="info-left-col">
+          <div class="carousel-wrapper">
+            <button v-if="project.imagesPaths.length > 1" class="nav-btn prev" @click.stop="prevSlide" aria-label="Previous image">&#10094;</button>
+            
+            <div class="carousel-image-container">
+              <img
+                :src="project.imagesPaths[currentIndex]"
+                :alt="`Image ${currentIndex + 1} of ${project.imagesPaths.length}`"
+                class="carousel-image"
+                draggable="false"
+              />
+            </div>
+            
+            <button v-if="project.imagesPaths.length > 1" class="nav-btn next" @click.stop="nextSlide" aria-label="Next image">&#10095;</button>
+          </div>
+
+          <div class="info-section">
+            <h4>{{ $t('projects.contextTitle') }}</h4>
+            <p>{{ project.contexte }}</p>
+          </div>
+          <div class="info-section">
+            <h4>{{ $t('projects.realisationTitle') }}</h4>
+            <p>{{ project.realisation }}</p>
+          </div>
+          <div class="info-section">
+            <h4>{{ $t('projects.descriptionTitle') }}</h4>
+            <p class="long-description">{{ project.longDescription }}</p>
+          </div>
         </div>
-        <div class="info-section">
-          <h4>{{ $t('projects.realisationTitle') }}</h4>
-          <p>{{ project.realisation }}</p>
-        </div>
-        <div class="info-section">
-          <h4>{{ $t('projects.descriptionTitle') }}</h4>
-          <p class="long-description">{{ project.longDescription }}</p>
+
+        <!-- Colonne Droite : Compétences BUT -->
+        <div v-if="project.competencesEvaluees && project.competencesEvaluees.length > 0" class="info-right-col">
+          <div class="info-section">
+            <h4>{{ $t('projects.competenciesTitle') }}</h4>
+            <div class="modal-competencies">
+              <div v-for="comp in project.competencesEvaluees" :key="comp.code" class="modal-comp-item">
+                <span class="modal-comp-code">{{ formatCompCode(comp.code, project.nom) }}</span>
+                <div class="modal-comp-text">
+                  <strong>{{ comp.ac }}</strong>
+                  <p>{{ comp.actionConcrete }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -197,7 +244,7 @@ onUnmounted(() => {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  max-width: 750px;
+  max-width: 950px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
@@ -245,7 +292,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   position: relative;
-  height: 380px;
+  height: 260px;
   margin-bottom: 1.5rem;
   background: var(--bg-primary);
   border-radius: 12px;
@@ -297,11 +344,18 @@ onUnmounted(() => {
 
 /* Project details structures */
 .project-info-details {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2rem;
+  margin-top: 0.5rem;
+  text-align: left;
+}
+
+.info-left-col,
+.info-right-col {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-  margin-top: 0.5rem;
-  text-align: left;
 }
 
 .info-section h4 {
@@ -328,15 +382,69 @@ onUnmounted(() => {
   white-space: pre-line;
 }
 
+/* Competencies inside modal */
+.modal-competencies {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 0.6rem;
+}
+
+.modal-comp-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+}
+
+.modal-comp-code {
+  background: var(--primary);
+  color: white;
+  font-weight: 800;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-top: 0.15rem;
+}
+
+.modal-comp-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: left;
+}
+
+.modal-comp-text strong {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.modal-comp-text p {
+  font-size: 0.9rem !important;
+  color: var(--text-secondary) !important;
+  line-height: 1.5;
+  margin: 0;
+}
+
 @media (max-width: 768px) {
   .carousel-wrapper {
-    height: 250px;
+    height: 220px;
   }
   .modal-content {
     padding: 2rem 1.2rem 1.5rem 1.2rem;
   }
   .project-title {
     font-size: 1.5rem;
+  }
+  .project-info-details {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
 </style>

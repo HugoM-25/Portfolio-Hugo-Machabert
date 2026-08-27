@@ -11,16 +11,140 @@ const { t } = useI18n()
 // Reactive list of projects driven by i18n translations
 const listeProjects = computed<ProjectModel[]>(() => [
   { 
-    nom: "Aichikier", 
+    nom: "AichiKier", 
     description: t('projects.chessDesc'), 
-    image: `${import.meta.env.BASE_URL}images/aichikier.png`, 
+    image: `${import.meta.env.BASE_URL}images/projets/aichikier-thumb.png`, 
     contexte: t('projects.chessContext'),
     realisation: t('projects.chessRealisation'),
     longDescription: t('projects.chessLongDesc'), 
     imagesPaths: [
-      `${import.meta.env.BASE_URL}images/aichikier.png`
-    ] 
+      `${import.meta.env.BASE_URL}images/projets/aichikier-home.png`,
+      `${import.meta.env.BASE_URL}images/projets/aichikier-board.png`,
+      `${import.meta.env.BASE_URL}images/projets/aichikier-account.png`
+    ],
+    competencesEvaluees: [
+      {
+        code: t('projects.chessComp1Code'),
+        ac: t('projects.chessComp1Ac'),
+        actionConcrete: t('projects.chessComp1Concrete')
+      },
+      {
+        code: t('projects.chessComp2Code'),
+        ac: t('projects.chessComp2Ac'),
+        actionConcrete: t('projects.chessComp2Concrete')
+      },
+      {
+        code: t('projects.chessComp3Code'),
+        ac: t('projects.chessComp3Ac'),
+        actionConcrete: t('projects.chessComp3Concrete')
+      }
+    ]
   },
+])
+
+const listeMissions = computed<ProjectModel[]>(() => [
+  {
+    nom: t('missions.m1.nom'),
+    description: t('missions.m1.desc'),
+    image: `${import.meta.env.BASE_URL}images/missions/mission-import-thumb.png`,
+    contexte: t('missions.m1.context'),
+    realisation: t('missions.m1.realisation'),
+    longDescription: t('missions.m1.longDesc'),
+    imagesPaths: [
+      `${import.meta.env.BASE_URL}images/missions/mission-import-1.png`,
+      `${import.meta.env.BASE_URL}images/missions/mission-import-2.png`
+    ],
+    competencesEvaluees: [
+      {
+        code: 'C1',
+        ac: t('missions.m1.c1Ac'),
+        actionConcrete: t('missions.m1.c1Concrete')
+      },
+      {
+        code: 'C6',
+        ac: t('missions.m1.c6Ac'),
+        actionConcrete: t('missions.m1.c6Concrete')
+      }
+    ]
+  },
+  {
+    nom: t('missions.m2.nom'),
+    description: t('missions.m2.desc'),
+    image: `${import.meta.env.BASE_URL}images/missions/mission-delta-thumb.png`,
+    contexte: t('missions.m2.context'),
+    realisation: t('missions.m2.realisation'),
+    longDescription: t('missions.m2.longDesc'),
+    imagesPaths: [
+      `${import.meta.env.BASE_URL}images/missions/mission-delta-1.png`,
+      `${import.meta.env.BASE_URL}images/missions/mission-delta-2.png`
+    ],
+    competencesEvaluees: [
+      {
+        code: 'C1',
+        ac: t('missions.m2.c1Ac'),
+        actionConcrete: t('missions.m2.c1Concrete')
+      },
+      {
+        code: 'C2',
+        ac: t('missions.m2.c2Ac'),
+        actionConcrete: t('missions.m2.c2Concrete')
+      }
+    ]
+  },
+  {
+    nom: t('missions.m3.nom'),
+    description: t('missions.m3.desc'),
+    image: `${import.meta.env.BASE_URL}images/missions/mission-manuels-thumb.png`,
+    contexte: t('missions.m3.context'),
+    realisation: t('missions.m3.realisation'),
+    longDescription: t('missions.m3.longDesc'),
+    imagesPaths: [
+      `${import.meta.env.BASE_URL}images/missions/mission-manuels-1.png`,
+      `${import.meta.env.BASE_URL}images/missions/mission-manuels-2.png`
+    ],
+    competencesEvaluees: [
+      {
+        code: 'C6',
+        ac: t('missions.m3.c6Ac'),
+        actionConcrete: t('missions.m3.c6Concrete')
+      },
+      {
+        code: 'C3',
+        ac: t('missions.m3.c3Ac'),
+        actionConcrete: t('missions.m3.c3Concrete')
+      }
+    ]
+  },
+  {
+    nom: t('missions.m4.nom'),
+    description: t('missions.m4.desc'),
+    image: `${import.meta.env.BASE_URL}images/missions/mission-eval-thumb.png`,
+    contexte: t('missions.m4.context'),
+    realisation: t('missions.m4.realisation'),
+    longDescription: t('missions.m4.longDesc'),
+    imagesPaths: [
+      `${import.meta.env.BASE_URL}images/missions/mission-eval-1.png`,
+      `${import.meta.env.BASE_URL}images/missions/mission-eval-2.png`,
+      `${import.meta.env.BASE_URL}images/missions/mission-eval-3.png`
+    ],
+    competencesEvaluees: [
+      {
+        code: 'C1',
+        ac: t('missions.m4.c1Ac'),
+        actionConcrete: t('missions.m4.c1Concrete')
+      },
+      {
+        code: 'C2',
+        ac: t('missions.m4.c2Ac'),
+        actionConcrete: t('missions.m4.c2Concrete')
+      },
+      {
+        code: 'C6',
+        ac: t('missions.m4.c6Ac'),
+        actionConcrete: t('missions.m4.c6Concrete')
+      }
+    ]
+  }
 ])
 
 const activeDiv = ref('home')
@@ -256,9 +380,8 @@ onUnmounted(() => {
         <div class="projects-subsection" style="margin-top: 4rem;">
           <h2 class="section-title">{{ $t('missions.title') }}</h2>
           <div class="projects-grid">
-            <div class="empty-state">
-              <font-awesome-icon :icon="['fas', 'briefcase']" class="empty-icon" />
-              <p>{{ $t('missions.emptyMessage') }}</p>
+            <div v-for="(mission) in listeMissions" :key="mission.nom" class="project-card-wrapper">
+              <Project :project="mission"/>
             </div>
           </div>
         </div>

@@ -1,3 +1,5 @@
+import type { CompetenceEvaluee } from './CompetenceEvaluee'
+
 export interface ProjectModel {
   nom : string;
   description: string;
@@ -6,4 +8,5 @@ export interface ProjectModel {
   imagesPaths: string[];
   contexte: string;
   realisation: string;
+  competencesEvaluees: CompetenceEvaluee[];
 }
