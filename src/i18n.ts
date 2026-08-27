@@ -69,10 +69,19 @@ const messages = {
       }
     },
     projects: {
-      title: "Mes Projets",
+      title: "Projets Académiques",
       viewProject: "Voir le projet",
+      contextTitle: "Contexte",
+      realisationTitle: "Réalisation",
+      descriptionTitle: "Description détaillée",
       chessDesc: "Site d'échecs en ligne interactif avec salon de jeu",
+      chessContext: "Projet universitaire (SAE) réalisé en groupe de 5 en 2ème année de BUT Informatique à l'IUT Lyon 1.",
+      chessRealisation: "Conception de l'architecture logicielle, implémentation du moteur de jeu en local et conception d'une interface de jeu web réactive.",
       chessLongDesc: "Un site complet pour jouer aux échecs en ligne. Permet de jouer contre une IA ou en local, de consulter l'historique des coups, d'analyser les parties et d'utiliser une interface de jeu moderne et réactive. Développé avec soin pour offrir une expérience fluide."
+    },
+    missions: {
+      title: "Missions Alternance",
+      emptyMessage: "Missions à venir..."
     },
     contact: {
       title: "Contactez-moi",
@@ -156,10 +165,19 @@ const messages = {
       }
     },
     projects: {
-      title: "My Projects",
+      title: "Academic Projects",
       viewProject: "View Project",
+      contextTitle: "Context",
+      realisationTitle: "Implementation",
+      descriptionTitle: "Detailed Description",
       chessDesc: "Online interactive chess site with game lobby",
+      chessContext: "University project (SAE) carried out in a group of 5 during the 2nd year of the Computer Science BUT at IUT Lyon 1.",
+      chessRealisation: "Design of the software architecture, implementation of the local chess engine, and development of a reactive web game interface.",
       chessLongDesc: "A complete online chess platform. It features local match play, move history, game analysis, and a modern reactive board UI. Built with care to deliver a seamless gaming experience."
+    },
+    missions: {
+      title: "Work-Study Missions",
+      emptyMessage: "Missions coming soon..."
     },
     contact: {
       title: "Get In Touch",

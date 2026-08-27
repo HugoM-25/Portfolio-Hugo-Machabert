@@ -14,6 +14,8 @@ const listeProjects = computed<ProjectModel[]>(() => [
     nom: "Aichikier", 
     description: t('projects.chessDesc'), 
     image: `${import.meta.env.BASE_URL}images/aichikier.png`, 
+    contexte: t('projects.chessContext'),
+    realisation: t('projects.chessRealisation'),
     longDescription: t('projects.chessLongDesc'), 
     imagesPaths: [
       `${import.meta.env.BASE_URL}images/aichikier.png`
@@ -238,12 +240,26 @@ onUnmounted(() => {
         </div>
       </section>
 
-      <!-- Section Projets -->
+      <!-- Section Projets & Missions -->
       <section id="projet" class="section">
-        <h2 class="section-title">{{ $t('projects.title') }}</h2>
-        <div class="projects-grid">
-          <div v-for="(project) in listeProjects" :key="project.nom" class="project-card-wrapper">
-            <Project :project="project"/>
+        <!-- Projets Académiques -->
+        <div class="projects-subsection">
+          <h2 class="section-title">{{ $t('projects.title') }}</h2>
+          <div class="projects-grid">
+            <div v-for="(project) in listeProjects" :key="project.nom" class="project-card-wrapper">
+              <Project :project="project"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Missions Alternance -->
+        <div class="projects-subsection" style="margin-top: 4rem;">
+          <h2 class="section-title">{{ $t('missions.title') }}</h2>
+          <div class="projects-grid">
+            <div class="empty-state">
+              <font-awesome-icon :icon="['fas', 'briefcase']" class="empty-icon" />
+              <p>{{ $t('missions.emptyMessage') }}</p>
+            </div>
           </div>
         </div>
       </section>
@@ -757,6 +773,35 @@ textarea.form-input {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+/* Empty state styling */
+.empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  background: rgba(22, 31, 48, 0.4);
+  border: 2px dashed var(--border-color);
+  border-radius: 16px;
+  color: var(--text-muted);
+  text-align: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.empty-icon {
+  font-size: 2.2rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.empty-state p {
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin: 0;
 }
 
 /* Responsive Styles */

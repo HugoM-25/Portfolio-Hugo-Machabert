@@ -83,8 +83,19 @@ onUnmounted(() => {
         <button v-if="project.imagesPaths.length > 1" class="nav-btn next" @click.stop="nextSlide" aria-label="Next image">&#10095;</button>
       </div>
       
-      <div class="long-description">
-        <p>{{ project.longDescription }}</p>
+      <div class="project-info-details">
+        <div class="info-section">
+          <h4>{{ $t('projects.contextTitle') }}</h4>
+          <p>{{ project.contexte }}</p>
+        </div>
+        <div class="info-section">
+          <h4>{{ $t('projects.realisationTitle') }}</h4>
+          <p>{{ project.realisation }}</p>
+        </div>
+        <div class="info-section">
+          <h4>{{ $t('projects.descriptionTitle') }}</h4>
+          <p class="long-description">{{ project.longDescription }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -284,8 +295,33 @@ onUnmounted(() => {
 .nav-btn.prev { left: 1rem; }
 .nav-btn.next { right: 1rem; }
 
-/* Long description content */
-.long-description {
+/* Project details structures */
+.project-info-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 0.5rem;
+  text-align: left;
+}
+
+.info-section h4 {
+  font-size: 0.95rem;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
+  font-family: var(--font-title);
+  font-weight: 700;
+}
+
+.info-section p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.info-section .long-description {
   font-size: 1.05rem;
   line-height: 1.7;
   color: var(--text-secondary);

@@ -4,4 +4,6 @@ export interface ProjectModel {
   image: string;
   longDescription : string;
   imagesPaths: string[];
+  contexte: string;
+  realisation: string;
 }
