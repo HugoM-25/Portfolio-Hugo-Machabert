@@ -214,6 +214,36 @@ const matchesFilters = (item: ProjectModel) => {
 
 const filteredProjects = computed(() => listeProjects.value.filter(matchesFilters))
 const filteredMissions = computed(() => listeMissions.value.filter(matchesFilters))
+
+// Map display names to model stack names (handles spacing differences)
+const stackDisplayMap: Record<string, string> = {
+  'HTML / CSS': 'HTML/CSS',
+}
+const normalizeStack = (display: string) => stackDisplayMap[display] ?? display
+
+// Check if a display tag has at least one matching project/mission
+const hasProjectsForStack = (display: string): boolean =>
+  allStacks.value.includes(normalizeStack(display))
+
+// Check if a BUT competence code (C1–C6) has at least one matching item
+const hasProjectsForComp = (i: number): boolean =>
+  allComps.value.includes(`C${i}`)
+
+// Navigate to #projet, reset filters, apply one stack filter
+const filterByStack = (display: string) => {
+  clearFilters()
+  selectedStacks.value = [normalizeStack(display)]
+  const el = document.getElementById('projet')
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+// Navigate to #projet, reset filters, apply one competence filter
+const filterByComp = (i: number) => {
+  clearFilters()
+  selectedComps.value = [`C${i}`]
+  const el = document.getElementById('projet')
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 // ───────────────────────────────────────────────────────────────────────────
 
 // Scroll tracking for navigation highlight
@@ -345,13 +375,33 @@ onUnmounted(() => {
             </div>
             <div class="skills-list">
               <span class="skill-tag">Java</span>
-              <span class="skill-tag">Python</span>
+              <span
+                class="skill-tag"
+                :class="{ 'skill-tag--linked': hasProjectsForStack('Python') }"
+                @click="hasProjectsForStack('Python') ? filterByStack('Python') : null"
+              >Python</span>
               <span class="skill-tag">Kotlin</span>
-              <span class="skill-tag">JavaScript</span>
-              <span class="skill-tag">PHP</span>
+              <span
+                class="skill-tag"
+                :class="{ 'skill-tag--linked': hasProjectsForStack('JavaScript') }"
+                @click="hasProjectsForStack('JavaScript') ? filterByStack('JavaScript') : null"
+              >JavaScript</span>
+              <span
+                class="skill-tag"
+                :class="{ 'skill-tag--linked': hasProjectsForStack('PHP') }"
+                @click="hasProjectsForStack('PHP') ? filterByStack('PHP') : null"
+              >PHP</span>
               <span class="skill-tag">C</span>
-              <span class="skill-tag">XML</span>
-              <span class="skill-tag">HTML / CSS</span>
+              <span
+                class="skill-tag"
+                :class="{ 'skill-tag--linked': hasProjectsForStack('XML') }"
+                @click="hasProjectsForStack('XML') ? filterByStack('XML') : null"
+              >XML</span>
+              <span
+                class="skill-tag"
+                :class="{ 'skill-tag--linked': hasProjectsForStack('HTML / CSS') }"
+                @click="hasProjectsForStack('HTML / CSS') ? filterByStack('HTML / CSS') : null"
+              >HTML / CSS</span>
             </div>
           </div>
           
@@ -377,7 +427,11 @@ onUnmounted(() => {
               <h3>{{ $t('skills.databases') }}</h3>
             </div>
             <div class="skills-list">
-              <span class="skill-tag">SQL</span>
+              <span
+                class="skill-tag"
+                :class="{ 'skill-tag--linked': hasProjectsForStack('SQL') }"
+                @click="hasProjectsForStack('SQL') ? filterByStack('SQL') : null"
+              >SQL</span>
               <span class="skill-tag">PL/SQL</span>
               <span class="skill-tag">MongoDB</span>
               <span class="skill-tag">Neo4j</span>
@@ -417,7 +471,13 @@ onUnmounted(() => {
       <section id="but-competence" class="section">
         <h2 class="section-title">{{ $t('butSkills.title') }}</h2>
         <div class="skills-grid">
-          <div v-for="i in 6" :key="i" class="skills-category-card but-skill-card">
+          <div
+            v-for="i in 6"
+            :key="i"
+            class="skills-category-card but-skill-card"
+            :class="{ 'but-skill-card--linked': hasProjectsForComp(i) }"
+            @click="hasProjectsForComp(i) ? filterByComp(i) : null"
+          >
             <div class="card-header-but">
               <font-awesome-icon :icon="['fas', 'graduation-cap']" class="category-icon-but" />
               <h3>{{ $t(`butSkills.c${i}.title`) }}</h3>
@@ -425,6 +485,9 @@ onUnmounted(() => {
             <p class="but-skill-desc">{{ $t(`butSkills.c${i}.desc`) }}</p>
             <div class="but-skill-level">
               <span class="level-badge">{{ $t(`butSkills.c${i}.level`) }}</span>
+              <span v-if="hasProjectsForComp(i)" class="but-skill-hint">
+                {{ $t('filter.clickToFilter') }} →
+              </span>
             </div>
           </div>
         </div>
@@ -785,13 +848,55 @@ onUnmounted(() => {
   font-size: 0.9rem;
   font-weight: 500;
   transition: var(--transition-fast);
+  user-select: none;
 }
 
-.skill-tag:hover {
+/* Non-linked tags: no hover effect */
+.skill-tag:not(.skill-tag--linked):hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+  transform: none;
+  cursor: default;
+}
+
+/* Linked tags: interactive hover */
+.skill-tag--linked {
+  cursor: pointer;
+  border-color: rgba(82, 99, 255, 0.3);
+}
+
+.skill-tag--linked:hover {
   background: var(--primary);
   color: white;
   border-color: var(--primary);
-  transform: scale(1.05);
+  transform: scale(1.06);
+  box-shadow: 0 0 12px rgba(82, 99, 255, 0.35);
+}
+
+/* BUT card clickable variant */
+.but-skill-card--linked {
+  cursor: pointer;
+  border-color: rgba(82, 99, 255, 0.25) !important;
+}
+
+.but-skill-card--linked:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary) !important;
+  box-shadow: 0 8px 24px rgba(82, 99, 255, 0.18);
+}
+
+.but-skill-hint {
+  font-size: 0.75rem;
+  color: var(--primary);
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  margin-left: 0.5rem;
+}
+
+.but-skill-card--linked:hover .but-skill-hint {
+  opacity: 1;
 }
 
 /* Projects Grid */

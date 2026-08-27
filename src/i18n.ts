@@ -157,7 +157,8 @@ const messages = {
       stackLabel: "Stack",
       compLabel: "Compétences BUT",
       reset: "Réinitialiser",
-      empty: "Aucun résultat pour ces filtres."
+      empty: "Aucun résultat pour ces filtres.",
+      clickToFilter: "Voir les projets"
     }
   },
   en: {
@@ -316,7 +317,8 @@ const messages = {
       stackLabel: "Stack",
       compLabel: "BUT Skills",
       reset: "Reset",
-      empty: "No results for these filters."
+      empty: "No results for these filters.",
+      clickToFilter: "View projects"
     }
   }
 }
