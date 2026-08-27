@@ -159,6 +159,63 @@ const listeMissions = computed<ProjectModel[]>(() => [
 const activeDiv = ref('home')
 const profileImage = `${import.meta.env.BASE_URL}images/avatar.jpg`
 
+// ── Filters ────────────────────────────────────────────────────────────────
+const selectedStacks = ref<string[]>([])
+const selectedComps  = ref<string[]>([])
+
+// Collect every unique stack tech across ALL items
+const allStacks = computed(() => {
+  const s = new Set<string>()
+  for (const p of [...listeProjects.value, ...listeMissions.value])
+    p.stack.forEach(t => s.add(t))
+  return [...s].sort()
+})
+
+// Collect every unique competence code across ALL items (bare code like "C1")
+const allComps = computed(() => {
+  const s = new Set<string>()
+  for (const p of [...listeProjects.value, ...listeMissions.value])
+    p.competencesEvaluees.forEach(c => {
+      // codes may look like "C1 — Réaliser (Niv. 2)" or just "C1"
+      const bare = c.code.match(/^C\d/)?.[0] ?? c.code
+      s.add(bare)
+    })
+  return [...s].sort()
+})
+
+const toggleStack = (tech: string) => {
+  const i = selectedStacks.value.indexOf(tech)
+  i === -1 ? selectedStacks.value.push(tech) : selectedStacks.value.splice(i, 1)
+}
+
+const toggleComp = (code: string) => {
+  const i = selectedComps.value.indexOf(code)
+  i === -1 ? selectedComps.value.push(code) : selectedComps.value.splice(i, 1)
+}
+
+const clearFilters = () => {
+  selectedStacks.value = []
+  selectedComps.value  = []
+}
+
+const hasActiveFilters = computed(() =>
+  selectedStacks.value.length > 0 || selectedComps.value.length > 0
+)
+
+const matchesFilters = (item: ProjectModel) => {
+  const stackOk = selectedStacks.value.length === 0 ||
+    selectedStacks.value.every(t => item.stack.includes(t))
+  const compOk  = selectedComps.value.length === 0 ||
+    selectedComps.value.every(sel =>
+      item.competencesEvaluees.some(c => (c.code.match(/^C\d/)?.[0] ?? c.code) === sel)
+    )
+  return stackOk && compOk
+}
+
+const filteredProjects = computed(() => listeProjects.value.filter(matchesFilters))
+const filteredMissions = computed(() => listeMissions.value.filter(matchesFilters))
+// ───────────────────────────────────────────────────────────────────────────
+
 // Scroll tracking for navigation highlight
 const handleScroll = () => {
   const divs = document.querySelectorAll('.section')
@@ -375,24 +432,67 @@ onUnmounted(() => {
 
       <!-- Section Projets & Missions -->
       <section id="projet" class="section">
+
+        <!-- ── Barre de filtres commune ── -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <span class="filter-label">{{ $t('filter.stackLabel') }}</span>
+            <div class="filter-chips">
+              <button
+                v-for="tech in allStacks"
+                :key="tech"
+                class="filter-chip"
+                :class="{ active: selectedStacks.includes(tech) }"
+                @click="toggleStack(tech)"
+              >{{ tech }}</button>
+            </div>
+          </div>
+
+          <div class="filter-right">
+            <div class="filter-group">
+              <span class="filter-label">{{ $t('filter.compLabel') }}</span>
+              <div class="filter-chips">
+                <button
+                  v-for="code in allComps"
+                  :key="code"
+                  class="filter-chip filter-chip--comp"
+                  :class="{ active: selectedComps.includes(code) }"
+                  @click="toggleComp(code)"
+                >{{ code }}</button>
+              </div>
+            </div>
+
+            <button
+              class="filter-reset"
+              :class="{ disabled: !hasActiveFilters }"
+              :disabled="!hasActiveFilters"
+              @click="clearFilters"
+            >
+              ✕ {{ $t('filter.reset') }}
+            </button>
+          </div>
+        </div>
+
         <!-- Projets Académiques -->
         <div class="projects-subsection">
           <h2 class="section-title">{{ $t('projects.title') }}</h2>
-          <div class="projects-grid">
-            <div v-for="(project) in listeProjects" :key="project.nom" class="project-card-wrapper">
+          <div v-if="filteredProjects.length > 0" class="projects-grid">
+            <div v-for="project in filteredProjects" :key="project.nom" class="project-card-wrapper">
               <Project :project="project"/>
             </div>
           </div>
+          <p v-else class="filter-empty">{{ $t('filter.empty') }}</p>
         </div>
 
         <!-- Missions Alternance -->
         <div class="projects-subsection" style="margin-top: 4rem;">
           <h2 class="section-title">{{ $t('missions.title') }}</h2>
-          <div class="projects-grid">
-            <div v-for="(mission) in listeMissions" :key="mission.nom" class="project-card-wrapper">
+          <div v-if="filteredMissions.length > 0" class="projects-grid">
+            <div v-for="mission in filteredMissions" :key="mission.nom" class="project-card-wrapper">
               <Project :project="mission"/>
             </div>
           </div>
+          <p v-else class="filter-empty">{{ $t('filter.empty') }}</p>
         </div>
       </section>
 
@@ -700,6 +800,136 @@ onUnmounted(() => {
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2rem;
 }
+
+/* ── Filter bar ──────────────────────────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  align-items: flex-start;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 3rem;
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 70px;
+  z-index: 100;
+  backdrop-filter: blur(16px);
+  background: rgba(18, 24, 40, 0.92);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 260px;
+}
+
+.filter-right {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5rem;
+  margin-left: auto;
+}
+
+.filter-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  margin-right: 0.2rem;
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.filter-chip:hover {
+  border-color: var(--primary);
+  color: var(--text-primary);
+  background: rgba(82, 99, 255, 0.08);
+}
+
+.filter-chip.active {
+  background: linear-gradient(135deg, rgba(82, 99, 255, 0.25), rgba(139, 92, 246, 0.2));
+  border-color: var(--primary);
+  color: #c7d2fe;
+  box-shadow: 0 0 10px rgba(82, 99, 255, 0.2);
+}
+
+.filter-chip--comp.active {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.15));
+  border-color: #10b981;
+  color: #6ee7b7;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.18);
+}
+
+.filter-chip--comp:hover {
+  border-color: #10b981;
+  color: var(--text-primary);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.filter-reset {
+  align-self: flex-end;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.08);
+  color: #f87171;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.filter-reset:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444;
+  color: #fca5a5;
+}
+
+.filter-reset.disabled,
+.filter-reset:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-color: var(--border-color);
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.filter-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1rem;
+  padding: 2rem 0;
+  font-style: italic;
+}
+/* ─────────────────────────────────────────────────────────────────────────── */
 
 /* Contact Section */
 .contact-subtitle {

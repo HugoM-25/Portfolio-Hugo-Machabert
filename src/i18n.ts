@@ -152,6 +152,12 @@ const messages = {
       email: "Adresse e-mail",
       github: "Mon GitHub",
       linkedin: "Mon LinkedIn"
+    },
+    filter: {
+      stackLabel: "Stack",
+      compLabel: "Compétences BUT",
+      reset: "Réinitialiser",
+      empty: "Aucun résultat pour ces filtres."
     }
   },
   en: {
@@ -305,6 +311,12 @@ const messages = {
       email: "Email address",
       github: "My GitHub",
       linkedin: "My LinkedIn"
+    },
+    filter: {
+      stackLabel: "Stack",
+      compLabel: "BUT Skills",
+      reset: "Reset",
+      empty: "No results for these filters."
     }
   }
 }
