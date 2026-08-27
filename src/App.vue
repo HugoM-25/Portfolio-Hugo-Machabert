@@ -13,15 +13,15 @@ const listeProjects = computed<ProjectModel[]>(() => [
   { 
     nom: "AichiKier", 
     description: t('projects.chessDesc'), 
-    image: `${import.meta.env.BASE_URL}images/projets/aichikier-thumb.png`, 
+    image: `${import.meta.env.BASE_URL}images/aichikier1.png`, 
     logo: `${import.meta.env.BASE_URL}images/aichikier-logo.png`,
     contexte: t('projects.chessContext'),
     realisation: t('projects.chessRealisation'),
     longDescription: t('projects.chessLongDesc'), 
     imagesPaths: [
-      `${import.meta.env.BASE_URL}images/projets/aichikier-home.png`,
-      `${import.meta.env.BASE_URL}images/projets/aichikier-board.png`,
-      `${import.meta.env.BASE_URL}images/projets/aichikier-account.png`
+      `${import.meta.env.BASE_URL}images/aichikier1.png`,
+      `${import.meta.env.BASE_URL}images/aichikier2.png`,
+      `${import.meta.env.BASE_URL}images/aichikier3.png`
     ],
     competencesEvaluees: [
       {
@@ -47,14 +47,15 @@ const listeMissions = computed<ProjectModel[]>(() => [
   {
     nom: t('missions.m1.nom'),
     description: t('missions.m1.desc'),
-    image: `${import.meta.env.BASE_URL}images/missions/mission-import-thumb.png`,
+    image: `${import.meta.env.BASE_URL}images/import1.png`,
     logo: `${import.meta.env.BASE_URL}images/eur-logo.png`,
     contexte: t('missions.m1.context'),
     realisation: t('missions.m1.realisation'),
     longDescription: t('missions.m1.longDesc'),
     imagesPaths: [
-      `${import.meta.env.BASE_URL}images/missions/mission-import-1.png`,
-      `${import.meta.env.BASE_URL}images/missions/mission-import-2.png`
+      `${import.meta.env.BASE_URL}images/import1.png`,
+      `${import.meta.env.BASE_URL}images/import2.png`,
+      `${import.meta.env.BASE_URL}images/import3.png`
     ],
     competencesEvaluees: [
       {
@@ -72,14 +73,13 @@ const listeMissions = computed<ProjectModel[]>(() => [
   {
     nom: t('missions.m2.nom'),
     description: t('missions.m2.desc'),
-    image: `${import.meta.env.BASE_URL}images/missions/mission-delta-thumb.png`,
+    image: `${import.meta.env.BASE_URL}images/delta.png`,
     logo: `${import.meta.env.BASE_URL}images/eur-logo.png`,
     contexte: t('missions.m2.context'),
     realisation: t('missions.m2.realisation'),
     longDescription: t('missions.m2.longDesc'),
     imagesPaths: [
-      `${import.meta.env.BASE_URL}images/missions/mission-delta-1.png`,
-      `${import.meta.env.BASE_URL}images/missions/mission-delta-2.png`
+      `${import.meta.env.BASE_URL}images/delta.png`
     ],
     competencesEvaluees: [
       {
@@ -97,14 +97,13 @@ const listeMissions = computed<ProjectModel[]>(() => [
   {
     nom: t('missions.m3.nom'),
     description: t('missions.m3.desc'),
-    image: `${import.meta.env.BASE_URL}images/missions/mission-manuels-thumb.png`,
+    image: `${import.meta.env.BASE_URL}images/manuel.png`,
     logo: `${import.meta.env.BASE_URL}images/eur-logo.png`,
     contexte: t('missions.m3.context'),
     realisation: t('missions.m3.realisation'),
     longDescription: t('missions.m3.longDesc'),
     imagesPaths: [
-      `${import.meta.env.BASE_URL}images/missions/mission-manuels-1.png`,
-      `${import.meta.env.BASE_URL}images/missions/mission-manuels-2.png`
+      `${import.meta.env.BASE_URL}images/manuel.png`
     ],
     competencesEvaluees: [
       {
@@ -122,15 +121,15 @@ const listeMissions = computed<ProjectModel[]>(() => [
   {
     nom: t('missions.m4.nom'),
     description: t('missions.m4.desc'),
-    image: `${import.meta.env.BASE_URL}images/missions/mission-eval-thumb.png`,
+    image: `${import.meta.env.BASE_URL}images/assessment.png`,
     logo: `${import.meta.env.BASE_URL}images/eur-logo.png`,
     contexte: t('missions.m4.context'),
     realisation: t('missions.m4.realisation'),
     longDescription: t('missions.m4.longDesc'),
     imagesPaths: [
-      `${import.meta.env.BASE_URL}images/missions/mission-eval-1.png`,
-      `${import.meta.env.BASE_URL}images/missions/mission-eval-2.png`,
-      `${import.meta.env.BASE_URL}images/missions/mission-eval-3.png`
+      `${import.meta.env.BASE_URL}images/assessment.png`,
+      `${import.meta.env.BASE_URL}images/assessment2.png`,
+      `${import.meta.env.BASE_URL}images/assessment3.png`
     ],
     competencesEvaluees: [
       {
