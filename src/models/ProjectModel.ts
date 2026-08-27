@@ -9,5 +9,6 @@ export interface ProjectModel {
   imagesPaths: string[];
   contexte: string;
   realisation: string;
+  stack: string[];
   competencesEvaluees: CompetenceEvaluee[];
 }

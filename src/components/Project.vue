@@ -131,6 +131,14 @@ onUnmounted(() => {
             <h4>{{ $t('projects.descriptionTitle') }}</h4>
             <p class="long-description">{{ project.longDescription }}</p>
           </div>
+
+          <!-- Stack technique -->
+          <div v-if="project.stack && project.stack.length > 0" class="info-section">
+            <h4>{{ $t('projects.stackTitle') }}</h4>
+            <div class="stack-tags">
+              <span v-for="tech in project.stack" :key="tech" class="stack-tag">{{ tech }}</span>
+            </div>
+          </div>
         </div>
 
         <!-- Colonne Droite : Compétences BUT -->
@@ -505,5 +513,37 @@ onUnmounted(() => {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
+}
+
+/* Stack technique tags */
+.stack-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.stack-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  letter-spacing: 0.01em;
+  background: linear-gradient(135deg, rgba(82, 99, 255, 0.15), rgba(139, 92, 246, 0.12));
+  border: 1px solid rgba(82, 99, 255, 0.3);
+  color: #a5b4fc;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.stack-tag:hover {
+  background: linear-gradient(135deg, rgba(82, 99, 255, 0.28), rgba(139, 92, 246, 0.22));
+  border-color: rgba(82, 99, 255, 0.6);
+  color: #c7d2fe;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(82, 99, 255, 0.2);
 }
 </style>

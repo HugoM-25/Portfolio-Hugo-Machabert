@@ -23,6 +23,7 @@ const listeProjects = computed<ProjectModel[]>(() => [
       `${import.meta.env.BASE_URL}images/aichikier2.png`,
       `${import.meta.env.BASE_URL}images/aichikier3.png`
     ],
+    stack: ['HTML/CSS', 'PHP', 'JavaScript', 'SQL', 'Python'],
     competencesEvaluees: [
       {
         code: t('projects.chessComp1Code'),
@@ -57,6 +58,7 @@ const listeMissions = computed<ProjectModel[]>(() => [
       `${import.meta.env.BASE_URL}images/import2.png`,
       `${import.meta.env.BASE_URL}images/import3.png`
     ],
+    stack: ['Python', 'XML'],
     competencesEvaluees: [
       {
         code: 'C1',
@@ -81,6 +83,7 @@ const listeMissions = computed<ProjectModel[]>(() => [
     imagesPaths: [
       `${import.meta.env.BASE_URL}images/delta.png`
     ],
+    stack: ['Python', 'XML'],
     competencesEvaluees: [
       {
         code: 'C1',
@@ -105,6 +108,7 @@ const listeMissions = computed<ProjectModel[]>(() => [
     imagesPaths: [
       `${import.meta.env.BASE_URL}images/manuel.png`
     ],
+    stack: [],
     competencesEvaluees: [
       {
         code: 'C6',
@@ -131,6 +135,7 @@ const listeMissions = computed<ProjectModel[]>(() => [
       `${import.meta.env.BASE_URL}images/assessment2.png`,
       `${import.meta.env.BASE_URL}images/assessment3.png`
     ],
+    stack: ['Python', 'XML', 'HTML/CSS'],
     competencesEvaluees: [
       {
         code: 'C1',
