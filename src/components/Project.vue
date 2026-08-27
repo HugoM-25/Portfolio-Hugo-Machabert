@@ -165,7 +165,7 @@ onUnmounted(() => {
   box-shadow: var(--shadow-md);
   transition: var(--transition-normal);
   width: 100%;
-  height: 250px;
+  height: 180px;
   display: block;
 }
 
@@ -183,7 +183,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   background: radial-gradient(circle at center, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.9) 100%);
-  padding: 2.2rem;
+  padding: 1.5rem;
   box-sizing: border-box;
   transition: var(--transition-normal);
 }
@@ -214,7 +214,7 @@ onUnmounted(() => {
   color: white;
   opacity: 0;
   transition: var(--transition-normal);
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -234,7 +234,7 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   background: linear-gradient(to top, rgba(11, 15, 25, 0.95) 40%, rgba(11, 15, 25, 0) 100%);
-  padding: 1.5rem 1.2rem 1rem 1.2rem;
+  padding: 1.2rem 1rem 0.8rem 1rem;
   transition: var(--transition-fast);
   text-align: left;
   z-index: 5;
@@ -267,10 +267,11 @@ onUnmounted(() => {
 }
 
 .overlay p {
-  margin: 0 0 15px 0;
-  font-size: 0.95rem;
+  margin: 0 0 10px 0;
+  font-size: 0.9rem;
   color: var(--text-secondary);
   text-align: left;
+  line-height: 1.4;
 }
 
 .btn-more {
