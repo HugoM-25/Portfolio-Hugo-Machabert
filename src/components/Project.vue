@@ -199,14 +199,14 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   background: radial-gradient(circle at center, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.9) 100%);
-  padding: 1.5rem;
+  padding: 0.8rem 1.5rem 3.4rem 1.5rem;
   box-sizing: border-box;
   transition: var(--transition-normal);
 }
 
 .card-large-logo {
-  max-width: 70%;
-  max-height: 60%;
+  max-width: 80%;
+  max-height: 75%;
   object-fit: contain;
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
   transition: var(--transition-normal);

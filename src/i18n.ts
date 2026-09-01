@@ -75,7 +75,7 @@ const messages = {
       realisationTitle: "Réalisation",
       descriptionTitle: "Description détaillée",
       competenciesTitle: "Compétences ciblées (BUT)",
-      stackTitle: "Stack technique",
+      stackTitle: "Technologies",
       chessDesc: "Plateforme web de jeu d'échecs en ligne et en local.",
       chessContext: "Projet universitaire (SAÉ) réalisé en groupe de 4 en 2ème année de BUT Informatique à l'IUT Lyon 1.",
       chessRealisation: "Conception de l'architecture logicielle (UML), implémentation du moteur de jeu et développement d'une interface web réactive connectée à une base de données.",
@@ -156,7 +156,7 @@ const messages = {
       linkedin: "Mon LinkedIn"
     },
     filter: {
-      stackLabel: "Stack",
+      stackLabel: "Technologies",
       compLabel: "Compétences BUT",
       reset: "Réinitialiser",
       empty: "Aucun résultat pour ces filtres.",
@@ -237,7 +237,7 @@ const messages = {
       realisationTitle: "Implementation",
       descriptionTitle: "Detailed Description",
       competenciesTitle: "Targeted Skills (BUT)",
-      stackTitle: "Tech Stack",
+      stackTitle: "Technologies",
       chessDesc: "Web platform for playing chess online and locally.",
       chessContext: "University project (SAÉ) carried out in a group of 4 during the 2nd year of the Computer Science BUT at IUT Lyon 1.",
       chessRealisation: "Design of the software architecture (UML), implementation of the chess engine, and development of a responsive web interface connected to a database.",
@@ -318,7 +318,7 @@ const messages = {
       linkedin: "My LinkedIn"
     },
     filter: {
-      stackLabel: "Stack",
+      stackLabel: "Technologies",
       compLabel: "BUT Skills",
       reset: "Reset",
       empty: "No results for these filters.",

@@ -522,23 +522,22 @@ onUnmounted(() => {
 
       <!-- Section Projets & Missions -->
       <section id="projet" class="section">
-
-        <!-- ── Barre de filtres commune ── -->
-        <div class="filter-bar">
-          <div class="filter-group">
-            <span class="filter-label">{{ $t('filter.stackLabel') }}</span>
-            <div class="filter-chips">
-              <button
-                v-for="tech in allStacks"
-                :key="tech"
-                class="filter-chip"
-                :class="{ active: selectedStacks.includes(tech) }"
-                @click="toggleStack(tech)"
-              >{{ tech }}</button>
+        <div class="projects-layout">
+          <!-- Barre de filtres (colonne de gauche) -->
+          <aside class="filter-sidebar">
+            <div class="filter-group">
+              <span class="filter-label">{{ $t('filter.stackLabel') }}</span>
+              <div class="filter-chips">
+                <button
+                  v-for="tech in allStacks"
+                  :key="tech"
+                  class="filter-chip"
+                  :class="{ active: selectedStacks.includes(tech) }"
+                  @click="toggleStack(tech)"
+                >{{ tech }}</button>
+              </div>
             </div>
-          </div>
 
-          <div class="filter-right">
             <div class="filter-group">
               <span class="filter-label">{{ $t('filter.compLabel') }}</span>
               <div class="filter-chips">
@@ -560,29 +559,32 @@ onUnmounted(() => {
             >
               ✕ {{ $t('filter.reset') }}
             </button>
-          </div>
-        </div>
+          </aside>
 
-        <!-- Projets Académiques -->
-        <div class="projects-subsection">
-          <h2 class="section-title">{{ $t('projects.title') }}</h2>
-          <div v-if="filteredProjects.length > 0" class="projects-grid">
-            <div v-for="project in filteredProjects" :key="project.nom" class="project-card-wrapper">
-              <Project :project="project"/>
+          <!-- Zone Projets & Missions (colonne de droite) -->
+          <div class="projects-main">
+            <!-- Projets Académiques -->
+            <div class="projects-subsection">
+              <h2 class="section-title">{{ $t('projects.title') }}</h2>
+              <div v-if="filteredProjects.length > 0" class="projects-grid">
+                <div v-for="project in filteredProjects" :key="project.nom" class="project-card-wrapper">
+                  <Project :project="project"/>
+                </div>
+              </div>
+              <p v-else class="filter-empty">{{ $t('filter.empty') }}</p>
+            </div>
+
+            <!-- Missions Alternance -->
+            <div class="projects-subsection" style="margin-top: 2.5rem;">
+              <h2 class="section-title">{{ $t('missions.title') }}</h2>
+              <div v-if="filteredMissions.length > 0" class="projects-grid">
+                <div v-for="mission in filteredMissions" :key="mission.nom" class="project-card-wrapper">
+                  <Project :project="mission"/>
+                </div>
+              </div>
+              <p v-else class="filter-empty">{{ $t('filter.empty') }}</p>
             </div>
           </div>
-          <p v-else class="filter-empty">{{ $t('filter.empty') }}</p>
-        </div>
-
-        <!-- Missions Alternance -->
-        <div class="projects-subsection" style="margin-top: 1.5rem;">
-          <h2 class="section-title">{{ $t('missions.title') }}</h2>
-          <div v-if="filteredMissions.length > 0" class="projects-grid">
-            <div v-for="mission in filteredMissions" :key="mission.nom" class="project-card-wrapper">
-              <Project :project="mission"/>
-            </div>
-          </div>
-          <p v-else class="filter-empty">{{ $t('filter.empty') }}</p>
         </div>
       </section>
 
@@ -964,39 +966,44 @@ onUnmounted(() => {
   gap: 2rem;
 }
 
-/* ── Filter bar ──────────────────────────────────────────────────────────── */
-.filter-bar {
-  display: flex;
-  flex-wrap: wrap;
+/* ── Projects Layout & Sidebar Filter ──────────────────────────────────── */
+.projects-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
   gap: 2.5rem;
-  align-items: flex-start;
+  align-items: start;
+  width: 100%;
+}
+
+.filter-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 1.4rem 1.6rem;
-  margin-bottom: 1rem;
+  padding: 1.6rem;
   box-shadow: var(--shadow-md);
   position: sticky;
-  top: 70px;
-  z-index: 100;
+  top: 90px;
   backdrop-filter: blur(16px);
   background: rgba(18, 24, 40, 0.92);
+  z-index: 90;
+}
+
+.projects-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
 }
 
 .filter-group {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.5rem;
-  flex: 1;
-  min-width: 260px;
-}
-
-.filter-right {
-  display: flex;
-  align-items: flex-end;
-  gap: 1.5rem;
-  margin-left: auto;
+  gap: 0.6rem;
+  width: 100%;
 }
 
 .filter-label {
@@ -1366,6 +1373,17 @@ textarea.form-input {
 }
 
 /* Responsive Styles */
+@media (max-width: 992px) {
+  .projects-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .filter-sidebar {
+    position: relative;
+    top: 0;
+  }
+}
+
 @media (max-width: 1024px) {
   .hero-wrapper {
     grid-template-columns: 1fr;
