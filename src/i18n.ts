@@ -23,12 +23,12 @@ const messages = {
       p2: "Je m'intéresse aussi bien à la solidité des architectures logicielles backend qu'à la qualité et la fluidité des interfaces utilisateurs. Mon objectif est de consolider mes acquis techniques et méthodologiques à travers des projets concrets, du recueil des besoins jusqu'au déploiement.",
       details: {
         location: "Lyon, France",
-        status: "Futur étudiant en Master MIAGE",
+        status: "Alternant chez EDF",
         interests: "Volley-ball, Photographie, Jeux de société"
       }
     },
     skills: {
-      title: "Stack technique",
+      title: "Technologies",
       languages: "Langages",
       frameworks: "Frameworks & Runtimes",
       databases: "Bases de données",
@@ -185,7 +185,7 @@ const messages = {
       p2: "I am interested in the robustness of backend software architectures as well as the quality and fluidity of user interfaces. My goal is to consolidate my technical and methodological skills through hands-on projects, from requirements gathering to deployment.",
       details: {
         location: "Lyon, France",
-        status: "Future Master MIAGE Student",
+        status: "Apprentice at EDF",
         interests: "Volleyball, Photography, Tabletop Games"
       }
     },

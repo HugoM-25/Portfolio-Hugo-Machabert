@@ -506,7 +506,7 @@ onUnmounted(() => {
             @click="hasProjectsForComp(i) ? filterByComp(i) : null"
           >
             <div class="card-header-but">
-              <font-awesome-icon :icon="['fas', 'graduation-cap']" class="category-icon-but" />
+              <span class="but-code-badge">C{{ i }}</span>
               <h3>{{ $t(`butSkills.c${i}.title`) }}</h3>
             </div>
             <p class="but-skill-desc">{{ $t(`butSkills.c${i}.desc`) }}</p>
@@ -858,6 +858,27 @@ onUnmounted(() => {
   margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 1rem;
+}
+
+.card-header-but {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.8rem;
+}
+
+.but-code-badge {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 8px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(82, 99, 255, 0.3);
+  font-family: var(--font-title);
 }
 
 .category-icon {

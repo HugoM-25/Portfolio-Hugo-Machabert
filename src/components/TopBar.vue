@@ -20,6 +20,7 @@ const selectedLanguage = ref<Language>(
   languages.find(l => l.code === locale.value) || languages[0]
 )
 const selectorRef = ref<HTMLElement | null>(null)
+const iutLogo = `${import.meta.env.BASE_URL}images/Logo_IUT_Lyon1.png`
 
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value
@@ -51,7 +52,10 @@ onUnmounted(() => {
 
 <template>
   <nav class="navbar glass">
-    <a href="#" class="logo">HM</a>
+    <div class="brand-container">
+      <a href="#" class="logo">HM</a>
+      <img :src="iutLogo" alt="Logo IUT Lyon 1" class="iut-logo" />
+    </div>
 
     <div class="language-selector" ref="selectorRef">
       <button @click="toggleDropdown" class="lang-button">
@@ -93,6 +97,12 @@ onUnmounted(() => {
   border-bottom: 1px solid var(--border-color);
 }
 
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
 .logo {
   font-family: var(--font-title);
   font-weight: 800;
@@ -103,6 +113,12 @@ onUnmounted(() => {
   -webkit-text-fill-color: transparent;
   letter-spacing: 1px;
   transition: var(--transition-fast);
+}
+
+.iut-logo {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
 }
 
 .logo:hover {

@@ -51,6 +51,8 @@ const stopAutoSlide = () => {
 }
 
 const formatCompCode = (code: string, projectNom: string) => {
+  const bareCode = code.match(/^C\d/)?.[0] ?? code
+
   const labels: Record<string, { fr: string, en: string }> = {
     C1: { fr: "Réaliser", en: "Software Development" },
     C2: { fr: "Optimiser", en: "Optimize" },
@@ -60,19 +62,25 @@ const formatCompCode = (code: string, projectNom: string) => {
     C6: { fr: "Collaborer", en: "Collaborate" }
   }
   
-  // Determine level
+  // Extract level number if present in code string, otherwise calculate standard level
   let levelNum = 3
-  if (projectNom === 'AichiKier') {
+  const levelMatch = code.match(/\(Niv\.\s*(\d)\)/i) || code.match(/\(Lvl\.\s*(\d)\)/i)
+  if (levelMatch) {
+    levelNum = parseInt(levelMatch[1], 10)
+  } else if (projectNom === 'AichiKier') {
     levelNum = 2
-  } else if (code === 'C3') {
+  } else if (bareCode === 'C3' || bareCode === 'C4' || bareCode === 'C5') {
     levelNum = 2
   }
   
-  const label = labels[code] || { fr: "", en: "" }
-  const nameStr = locale.value === 'fr' ? label.fr : label.en
-  const levelStr = locale.value === 'fr' ? `Niv. ${levelNum}` : `Lvl. ${levelNum}`
+  const label = labels[bareCode]
+  if (label) {
+    const nameStr = locale.value === 'fr' ? label.fr : label.en
+    const levelStr = locale.value === 'fr' ? `Niv. ${levelNum}` : `Lvl. ${levelNum}`
+    return `${bareCode} — ${nameStr} (${levelStr})`
+  }
   
-  return `${code} — ${nameStr} (${levelStr})`
+  return code
 }
 
 onUnmounted(() => {
@@ -278,7 +286,7 @@ onUnmounted(() => {
   margin: 0 0 10px 0;
   font-size: 0.9rem;
   color: var(--text-secondary);
-  text-align: left;
+  text-align: justify;
   line-height: 1.4;
 }
 
